@@ -1,0 +1,1466 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_DUMMYDASHBOARD-MYSQL",
+      "label": "dummydashboard-mysql",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "mysql",
+      "pluginName": "MySQL"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "12.0.2"
+    },
+    {
+      "type": "datasource",
+      "id": "mysql",
+      "name": "MySQL",
+      "version": "12.0.2"
+    },
+    {
+      "type": "panel",
+      "id": "piechart",
+      "name": "Pie chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "blue",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(DISTINCT(Order_ID)) AS \"Total Orders\"\r\nFROM dashboarddb.global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\n\r\n\r\n \r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "global_superstore"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 0,
+          "valueSize": 0
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM(Quantity) as \"Total Quantity\" FROM dashboarddb.global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "global_superstore"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM(Sales) as \"Total Sales\" FROM dashboarddb.global_superstore \r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "global_superstore"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM(ShippingCost) as \"Total Shipping Cost\" FROM dashboarddb.global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "global_superstore"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "description": "(Last 12 Months Data)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "Sales",
+            "axisPlacement": "auto",
+            "fillOpacity": 100,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "semi-dark-green"
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.64,
+        "colorByField": "month_label",
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 17
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "asc"
+        },
+        "xField": "month_label",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  DATE_FORMAT(STR_TO_DATE(Order_Date, '%Y-%m-%d'), '%b %Y') AS month_label,\r\n  SUM(Sales) AS total_sales,\r\n  DATE_FORMAT(STR_TO_DATE(Order_Date, '%Y-%m-%d'), '%Y-%m') AS sort_key\r\nFROM global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\nGROUP BY month_label, sort_key\r\nORDER BY sort_key desc\r\nlimit 12\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "Order_Date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "Order_Date"
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            }
+          },
+          "table": "global_superstore",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Sales by Month",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  distinct(Segment) as segment,\r\n  SUM(Sales) AS total_sales\r\nFROM global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\nGROUP BY Segment\r\nORDER BY Segment asc\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "Order_Date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "Order_Date"
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            }
+          },
+          "table": "global_superstore",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Sales by Segment",
+      "transparent": true,
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "year_data"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 7,
+        "y": 14
+      },
+      "id": 10,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.54,
+        "fullHighlight": false,
+        "groupWidth": 0.9,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "year_data",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n   CONCAT(YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d'))) as year_data,\r\n  SUM(Sales) AS total_sales\r\nFROM global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\nGROUP BY year_data\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "Order_Date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "Order_Date"
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            }
+          },
+          "table": "global_superstore",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Sales by Year",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 17,
+        "y": 14
+      },
+      "id": 9,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  distinct(Category) as category,\r\n  SUM(Sales) AS total_sales\r\nFROM global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\nGROUP BY category\r\nORDER BY category asc\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "Order_Date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "Order_Date"
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            }
+          },
+          "table": "global_superstore",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Sales by Category",
+      "transparent": true,
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 7,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.55,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {
+          "valueSize": 18
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Region",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  distinct(Region) as Region,\r\n  SUM(Sales) AS total_sales\r\nFROM global_superstore\r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\nGROUP BY Region\r\nORDER BY total_sales desc\r\nlimit 10\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "Order_Date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "name": "SUM",
+                "parameters": [
+                  {
+                    "name": "Sales",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "Order_Date"
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            }
+          },
+          "table": "global_superstore",
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Sales by Top 10 Region",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "mode": "gradient",
+              "type": "gauge",
+              "valueDisplayMode": "color",
+              "wrapText": true
+            },
+            "filterable": true,
+            "inspect": false,
+            "width": 300
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Product_Name"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 11,
+        "x": 0,
+        "y": 36
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT Product_Name, SUM(Sales) as TotalSales \r\nFROM global_superstore \r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\n    GROUP BY Product_Name ORDER BY TotalSales DESC LIMIT 10",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Top 10 Products by Sales",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "mode": "gradient",
+              "type": "gauge",
+              "valueDisplayMode": "color",
+              "wrapText": true
+            },
+            "filterable": true,
+            "inspect": false,
+            "width": 250
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Customer_ID"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Order_Count"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "unit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 13,
+        "x": 11,
+        "y": 36
+      },
+      "id": 12,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "dataset": "dashboarddb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT Customer_ID, SUM(Sales) as TotalSales, count(*) as Order_Count\r\nFROM global_superstore \r\nWHERE \r\n  YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) IN (${Year:csv})\r\n    AND Country IN (${Country:csv:singlequote})\r\n    AND Region IN (${Region:csv:singlequote})\r\n    AND Market IN (${Market:csv:singlequote})\r\n    AND Category IN (${Category:csv:singlequote})\r\n    AND Sub_Category IN (${Subcategory:csv:singlequote})\r\n    GROUP BY Customer_ID ORDER BY TotalSales DESC LIMIT 10",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_DUMMYDASHBOARD-MYSQL}"
+          }
+        }
+      ],
+      "title": "Top 10 CustomerID by Sales",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": "2012,2013,2014,2015",
+        "allowCustomValue": false,
+        "current": {},
+        "definition": "SELECT DISTINCT YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) AS year\nFROM global_superstore\nORDER BY year;\n",
+        "includeAll": true,
+        "label": "Year",
+        "multi": true,
+        "name": "Year",
+        "options": [],
+        "query": "SELECT DISTINCT YEAR(STR_TO_DATE(Order_Date, '%Y-%m-%d')) AS year\nFROM global_superstore\nORDER BY year;\n",
+        "refresh": 1,
+        "regex": "",
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "allValue": "'Afghanistan','Albania','Algeria','Angola','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Costa Rica','Cote d''Ivoire','Croatia','Cuba','Cyprus','Czech Republic','Democratic Republic of the Congo','Denmark','Djibouti','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Ethiopia','Finland','France','French Guiana','Gabon','Georgia','Germany','Ghana','Greece','Guadeloupe','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyzstan','Laos','Lebanon','Lesotho','Liberia','Libya','Lithuania','Luxembourg','Macedonia','Madagascar','Malawi','Malaysia','Mali','Martinique','Mauritania','Mexico','Moldova','Mongolia','Montenegro','Morocco','Mozambique','Myanmar (Burma)','Namibia','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','Norway','Oman','Pakistan','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Republic of the Congo','Romania','Russia','Rwanda','Saudi Arabia','Senegal','Serbia','Sierra Leone','Singapore','Slovakia','Slovenia','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Swaziland','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','The Gambia','Togo','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Venezuela','Vietnam','Western Sahara','Yemen','Zambia','Zimbabwe'",
+        "allowCustomValue": true,
+        "current": {},
+        "definition": "SELECT CONCAT(\"'\", Country, \"'\") FROM dashboarddb.global_superstore ORDER BY Country\n",
+        "includeAll": true,
+        "label": "Country",
+        "multi": true,
+        "name": "Country",
+        "options": [],
+        "query": "SELECT CONCAT(\"'\", Country, \"'\") FROM dashboarddb.global_superstore ORDER BY Country\n",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": "'Canada','Caribbean', 'Central Africa', 'Central America', 'Central Asia', 'Central US', 'Eastern Africa', 'Eastern Asia','Eastern Europe', 'Eastern US', 'North Africa', 'Northern Europe', 'Oceania', 'South America', 'Southeastern Asia', 'Southern Africa', 'Southern Asia', 'Southern Europe', 'Southern US', 'Western Africa', 'Western Asia' ,'Western Europe','Western US'",
+        "allowCustomValue": false,
+        "current": {},
+        "definition": "SELECT CONCAT(\"'\", Region, \"'\") FROM dashboarddb.global_superstore ORDER BY Region",
+        "description": "",
+        "includeAll": true,
+        "label": "Region",
+        "multi": true,
+        "name": "Region",
+        "options": [],
+        "query": "SELECT CONCAT(\"'\", Region, \"'\") FROM dashboarddb.global_superstore ORDER BY Region",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": "'Africa', 'Asia Pacific','Europe','LATAM', 'USCA'",
+        "allowCustomValue": false,
+        "current": {},
+        "definition": "SELECT CONCAT(\"'\", Market, \"'\") FROM dashboarddb.global_superstore ORDER BY Market",
+        "description": "",
+        "includeAll": true,
+        "label": "Market",
+        "multi": true,
+        "name": "Market",
+        "options": [],
+        "query": "SELECT CONCAT(\"'\", Market, \"'\") FROM dashboarddb.global_superstore ORDER BY Market",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "allValue": "'Furniture','Office Supplies','Technology'",
+        "allowCustomValue": false,
+        "current": {},
+        "definition": "SELECT CONCAT(\"'\", Category, \"'\") FROM dashboarddb.global_superstore ORDER BY Category",
+        "description": "Product Category",
+        "includeAll": true,
+        "label": "Category",
+        "multi": true,
+        "name": "Category",
+        "options": [],
+        "query": "SELECT CONCAT(\"'\", Category, \"'\") FROM dashboarddb.global_superstore ORDER BY Category",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": "'Accessories', 'Appliances', 'Art', 'Binders', 'Bookcases', 'Chairs', 'Copiers', 'Envelopes', 'Fasteners', 'Furnishings', 'Labels', 'Machines', 'Paper', 'Phones', 'Storage', 'Supplies', 'Tables'",
+        "allowCustomValue": false,
+        "current": {},
+        "definition": "SELECT CONCAT(\"'\", Sub_Category, \"'\") FROM dashboarddb.global_superstore ORDER BY Sub_Category",
+        "description": "",
+        "includeAll": true,
+        "label": "Subcategory",
+        "multi": true,
+        "name": "Subcategory",
+        "options": [],
+        "query": "SELECT CONCAT(\"'\", Sub_Category, \"'\") FROM dashboarddb.global_superstore ORDER BY Sub_Category",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Business KPI",
+  "uid": "4cc79364-9e59-4a7a-96a1-837f91311d1c",
+  "version": 9,
+  "weekStart": ""
+}
